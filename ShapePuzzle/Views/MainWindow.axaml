@@ -1,0 +1,79 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ShapePuzzle.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:ShapePuzzle.Models"
+        xmlns:shapes="clr-namespace:ShapePuzzle.Models.Shapes"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ShapePuzzle.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Width="1200"
+        Height="800"
+        CanResize="False"
+        KeyDown="Window_OnKeyDown"
+        Title="ShapePuzzle">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Panel>
+        <Canvas>
+            <Rectangle Canvas.Top="0" Canvas.Left="0" Width="10000" Height="200" Fill="#10FFFFFF" />
+        </Canvas>
+
+        <ItemsControl ItemsSource="{Binding Shapes}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.Styles>
+                <Style Selector="ContentPresenter" x:DataType="{x:Type models:Shape}">
+                    <Setter Property="Canvas.Top" Value="{Binding PositionTop}" />
+                    <Setter Property="Canvas.Left" Value="{Binding PositionLeft}" />
+                </Style>
+            </ItemsControl.Styles>
+
+            <ItemsControl.DataTemplates>
+                <DataTemplate DataType="{x:Type shapes:Circle}">
+                    <Ellipse Stroke="{Binding StrokeColor}" StrokeThickness="{Binding StrokeWidth}"
+                             Fill="{Binding FillColor}" Width="{Binding ShapeSize}" Height="{Binding ShapeSize}" />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type shapes:Triangle}">
+                    <Polygon Stroke="{Binding StrokeColor}" StrokeThickness="{Binding StrokeWidth}"
+                             Fill="{Binding FillColor}" Width="{Binding ShapeSize}" Height="{Binding ShapeSize}"
+                             Points="{Binding Points}" />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type shapes:Square}">
+                    <Rectangle Stroke="{Binding StrokeColor}" StrokeThickness="{Binding StrokeWidth}"
+                               Fill="{Binding FillColor}" Width="{Binding ShapeSize}" Height="{Binding ShapeSize}" />
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
+
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity=".8" ZIndex="1" Background="Black"
+                    Spacing="5">
+            <TextBlock
+                Text="Select different shapes with TAB, drop them using SPACE when you're close to a target." />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding RemainingShapes.Count}" />
+                <TextBlock Text=" shape(s) remaining." Margin="0 0 0 10" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel ZIndex="1000" Background="Black" Spacing="5" VerticalAlignment="Center"
+                    Opacity="{Binding GameOverOverlayOpacity}">
+            <TextBlock HorizontalAlignment="Center" Text="Game over" FontSize="48" Foreground="Aquamarine" />
+            <TextBlock HorizontalAlignment="Center" Text="Congratulations" Opacity=".5" />
+        </StackPanel>
+    </Panel>
+</Window>
