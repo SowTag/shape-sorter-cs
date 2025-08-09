@@ -11,8 +11,10 @@
         Icon="/Assets/avalonia-logo.ico"
         Width="1200"
         Height="800"
+        Background="#aa000000"
+        TransparencyLevelHint="AcrylicBlur,Blur"
+        ExtendClientAreaToDecorationsHint="True"
         CanResize="False"
-        KeyDown="Window_OnKeyDown"
         Title="ShapePuzzle">
 
     <Design.DataContext>
@@ -21,15 +23,13 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Panel>
-        <Canvas>
-            <Rectangle Canvas.Top="0" Canvas.Left="0" Width="10000" Height="200" Fill="#10FFFFFF" />
-        </Canvas>
 
+    <Panel>
         <ItemsControl ItemsSource="{Binding Shapes}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas />
+                    <Canvas Initialized="GameCanvas_OnInitialized" Focusable="True" Name="GameCanvas"
+                            KeyDown="GameCanvas_OnKeyDown" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -60,8 +60,8 @@
         </ItemsControl>
 
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity=".8" ZIndex="1" Background="Black"
-                    Spacing="5">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity=".8" ZIndex="1"
+                    Spacing="5" Margin="0 0 0 10">
             <TextBlock
                 Text="Select different shapes with TAB, drop them using SPACE when you're close to a target." />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -70,7 +70,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel ZIndex="1000" Background="Black" Spacing="5" VerticalAlignment="Center"
+        <StackPanel ZIndex="1000" Background="#60000000" Spacing="5" VerticalAlignment="Center"
                     Opacity="{Binding GameOverOverlayOpacity}">
             <TextBlock HorizontalAlignment="Center" Text="Game over" FontSize="48" Foreground="Aquamarine" />
             <TextBlock HorizontalAlignment="Center" Text="Congratulations" Opacity=".5" />

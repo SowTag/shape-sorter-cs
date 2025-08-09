@@ -36,9 +36,9 @@ public sealed class MainWindowViewModel : ViewModelBase
     {
         var randomUtilities = new RandomUtilities(_randomGeneratorParameters);
 
-        Shape[] generatedShapes = randomUtilities.GenerateRandomShapes();
+        var generatedShapes = randomUtilities.GenerateRandomShapes();
 
-        Shape[] combinedShapeArray = generatedShapes.Concat(_shapeTargets).ToArray();
+        var combinedShapeArray = generatedShapes.Concat(_shapeTargets).ToArray();
 
         Shapes = new ObservableCollection<Shape>(combinedShapeArray);
         SelectedShape = 0;
@@ -87,12 +87,12 @@ public sealed class MainWindowViewModel : ViewModelBase
 
     private void UnselectAllShapes()
     {
-        foreach (Shape shape in _shapes) shape.IsSelected = false;
+        foreach (var shape in _shapes) shape.IsSelected = false;
     }
 
     public void SelectShapeDelta(int delta)
     {
-        int wrappedIndex = (SelectedShape + delta) % RemainingShapes.Count;
+        var wrappedIndex = (SelectedShape + delta) % RemainingShapes.Count;
 
         if (wrappedIndex < 0)
             wrappedIndex += RemainingShapes.Count;
@@ -109,11 +109,11 @@ public sealed class MainWindowViewModel : ViewModelBase
 
     public void CheckShapeTarget()
     {
-        Shape current = RemainingShapes[SelectedShape];
-        Shape target = Shapes.First(shape =>
+        var current = RemainingShapes[SelectedShape];
+        var target = Shapes.First(shape =>
             shape.ShapeType == ShapeType.Target && shape.PolygonType == current.PolygonType);
 
-        double distance = DistanceUtilities.CalculateDistanceBetween(current.ShapeCenter, target.ShapeCenter);
+        var distance = DistanceUtilities.CalculateDistanceBetween(current.ShapeCenter, target.ShapeCenter);
 
         if (distance < ShapeToTargetDistanceTolerance)
         {

@@ -11,20 +11,20 @@ public class RandomUtilities(RandomGeneratorParameters parameters)
 
     private static T GenerateRandomEnumValue<T>(Random random) where T : Enum
     {
-        Array values = Enum.GetValues(typeof(T));
+        var values = Enum.GetValues(typeof(T));
         return (T)values.GetValue(random.Next(values.Length))!;
     }
 
     public Shape[] GenerateRandomShapes()
     {
-        int shapeCount = _randomNumberGenerator.Next(parameters.ShapeCountMin, parameters.ShapeCountMax);
+        var shapeCount = _randomNumberGenerator.Next(parameters.ShapeCountMin, parameters.ShapeCountMax);
 
         var generatedShapes = new Shape[shapeCount];
 
         for (var i = 0; i < shapeCount; i++)
         {
             var shapeType = GenerateRandomEnumValue<PolygonType>(_randomNumberGenerator);
-            Point shapePosition = GenerateRandomPointWithinShapeBounds();
+            var shapePosition = GenerateRandomPointWithinShapeBounds();
 
             Shape shape = shapeType switch
             {
@@ -42,8 +42,8 @@ public class RandomUtilities(RandomGeneratorParameters parameters)
 
     private Point GenerateRandomPointWithinShapeBounds()
     {
-        double x = GenerateRandomDoubleWithinBounds(parameters.ShapePositionMinX, parameters.ShapePositionMaxX);
-        double y = GenerateRandomDoubleWithinBounds(parameters.ShapePositionMinY, parameters.ShapePositionMaxY);
+        var x = GenerateRandomDoubleWithinBounds(parameters.ShapePositionMinX, parameters.ShapePositionMaxX);
+        var y = GenerateRandomDoubleWithinBounds(parameters.ShapePositionMinY, parameters.ShapePositionMaxY);
 
         return new Point(x, y);
     }

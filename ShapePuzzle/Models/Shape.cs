@@ -51,7 +51,7 @@ public abstract class Shape(ShapeType type, Point position) : INotifyPropertyCha
     {
         ShapeType.Movable => 4,
         ShapeType.MovableInPosition => 0,
-        ShapeType.Target => 1,
+        ShapeType.Target => 2,
         _ => throw new ArgumentOutOfRangeException()
     };
 
@@ -82,7 +82,7 @@ public abstract class Shape(ShapeType type, Point position) : INotifyPropertyCha
 
     public void Move(MovementDirection movementDirection)
     {
-        (double x, double y) = ShapeCenter;
+        var (x, y) = ShapeCenter;
 
         switch (movementDirection)
         {

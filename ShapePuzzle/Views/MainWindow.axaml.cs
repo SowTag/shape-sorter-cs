@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using ShapePuzzle.Models;
@@ -12,14 +13,15 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void Window_OnKeyDown(object? sender, KeyEventArgs e)
+    private void GameCanvas_OnKeyDown(object? sender, KeyEventArgs e)
     {
         if (DataContext is not MainWindowViewModel vm) return;
 
+
         if (vm.IsGameOver) return;
 
-        bool isShiftPressed = (e.KeyModifiers & KeyModifiers.Shift) != 0;
-
+        var isShiftPressed = (e.KeyModifiers & KeyModifiers.Shift) != 0;
+        
         switch (e.Key)
         {
             case Key.Tab: vm.SelectShapeDelta(isShiftPressed ? -1 : 1); break;
@@ -30,6 +32,14 @@ public partial class MainWindow : Window
             case Key.Right or Key.D: vm.MoveCurrentShape(MovementDirection.Right); break;
 
             case Key.Space: vm.CheckShapeTarget(); break;
+        }
+    }
+
+    private void GameCanvas_OnInitialized(object? sender, EventArgs e)
+    {
+        if (sender is Canvas canvas)
+        {
+            canvas.Focus();
         }
     }
 }
